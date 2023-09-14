@@ -38,7 +38,7 @@ token_ids = torch.tensor(token_ids).unsqueeze(0)
 attention_mask = torch.tensor(attention_mask).unsqueeze(0)
 
 #위 요소들을 모델에 입력하고 임베딩을 얻는다(문맥화된 단어 임베딩)
-model_input=tokenizer(token, return_tensors="pt")
+model_input=tokenizer(sentence+'[PAD]'+ '[PAD]', return_tensors="pt")
 outputs= model(**model_input)
 #print(model)
 
@@ -47,4 +47,4 @@ print(outputs.keys())
 
 #12계층중 마지막 layer의 차원값
 print(outputs.last_hidden_state.shape)
-print(outputs.last_hidden_state[0][2])
+print(outputs.last_hidden_state) # 최종 임베딩값?
