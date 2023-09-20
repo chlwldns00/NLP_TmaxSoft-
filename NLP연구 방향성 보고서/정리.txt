@@ -1,0 +1,37 @@
+__init__: 클래스의 생성자 메서드로, 초기화를 위한 여러 매개변수를 받습니다. 주요 매개변수로는 다음이 있습니다.
+
+sql_database: SQL 데이터베이스 연결 정보를 나타내는 객체입니다.
+text_to_sql_prompt: Text to SQL 변환에 사용되는 프롬프트 템플릿입니다.
+context_query_kwargs: 쿼리 실행에 대한 추가적인 매개변수를 설정합니다.
+synthesize_response: 응답 생성 여부를 나타내는 부울 값입니다.
+response_synthesis_prompt: 응답 생성에 사용되는 프롬프트 템플릿입니다.
+service_context: 서비스 컨텍스트 객체로, 기본적으로 설정된 값이 있습니다.
+service_context: 서비스 컨텍스트 속성으로, 서비스에 대한 컨텍스트 정보를 반환합니다.
+
+_parse_response_to_sql: 응답 문자열에서 SQL 쿼리를 추출하는 내부 메서드입니다.
+
+_get_table_context: 테이블 스키마 및 선택적인 컨텍스트 정보를 문자열로 반환하는 추상 메서드입니다. 이 메서드는 파생 클래스에서 구현되어야 합니다.
+
+_query: 쿼리 번들을 받아서 쿼리를 처리하고 응답을 반환하는 내부 메서드입니다. 이 메서드에서는 Text to SQL 모델을 사용하여 SQL 쿼리를 생성하고 실행합니다.
+
+_aquery: 비동기 버전의 _query 메서드로, 비동기적인 쿼리 처리를 위한 메서드입니다. 이 메서드는 _query와 유사하지만 await를 사용하여 비동기적으로 작업합니다.
+
+
+llama_index/indices/struct_store/sql.py
+llama_index/indices/struct_store/base.py
+1.DB에서 스키마 추출(관련테이블 정보 추출이죠)
+2.
+
+
+
+
+
+tf-Foso8FJkBtc72iLQOiFHIx
+자연어 -> 벡터 <벡터화가 잘되어야> 
+        임베딩(어떻게 임베딩 하는가, 어떤모델을 쓸까)
+
+C:\Users\Tmax\Downloads\LoRA_E5-main\LoRA_E5-main\script
+임베딩작동,버트의 임베딩 벡터화->임베딩
+1.질문핵심파악
+2.답변중에 어투가 이상한것들에대한 대체 질문(추천)
+3.답변이 잘 나왔는데, 이와 관련된 질문을 물어봄
