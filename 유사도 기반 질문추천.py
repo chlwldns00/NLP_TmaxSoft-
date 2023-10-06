@@ -10,10 +10,10 @@ import scipy as sp
 #### 형태소 분석기
 t=Okt()
 
-#### data slicing(한글질문 위주)
+#### data slicing(한글질문 위주, 100개만 잘라서 테스트)
 df=pd.read_csv("JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 df=df[2]
-df=df[:100]
+df=df[:100]  
 contents=df.values.tolist()
 #print(len(contents))
 #print(df.head(3))
@@ -51,11 +51,12 @@ vec=vectorizer.fit_transform(tok_sentence_forVectorize)
 num_samples, num_features =vec.shape
 #print(num_samples, num_features)
 
-#### 이제 타겟이 될 질문을 정한다. 타겟문장의 번호로 설정
+#### 이제 타겟이 될 질문을 정한다. 타겟문장의 번호로 설정(이거는 무작위로 번호 인덱스)
 
 target_q=[target_q] #임베딩하기위해 리스트 변환
 target_q_vec =vectorizer.transform(target_q)
 print("타겟 질문의 임베딩 결과: \n", target_q_vec)
+print('\n\n\n\n---------------------------------------')
 
 
 #### 벡터 거리계산 함수 정의
@@ -71,18 +72,27 @@ def dist_raw(v1,v2):
 best_q=None
 best_dist=65535
 best_i=None
-
+dis=[]
 for i in range(0,num_samples):
     if i != 8: #제거한 문장 제외
         post_vec=vec.getrow(i)
 
-        dis=dist_raw(post_vec, target_q_vec)
-        print("==Post %i with dist=%.3f : %s" % (i,dis,contents[i]))
+        dis.append(dist_raw(post_vec, target_q_vec))
+        if i<8:
+            print("==Post %i with dist=%.3f : %s" % (i,dis[i],contents[i]))
+            if dis[i] < best_dist:
+                best_dist=dis[i]
+                best_i=i
+        else:
+            print("==Post %i with dist=%.3f : %s" % (i-1,dis[i-1],contents[i]))
+            if dis[i-1] < best_dist:
+                best_dist=dis[i-1]
+                best_i=i
 
-        if dis < best_dist:
-            best_dist=dis
-            best_i=i
+         
 
+
+print('\n\n\n\n----------------------------------------------------------')
 print("Best recommendation question is %i -> %s, dist = %.3f" % (best_i,contents[best_i],best_dist))
-
+print('/n ',len(dis))
 #### 여러개를 뽑아보자 그리고 비교해보자
