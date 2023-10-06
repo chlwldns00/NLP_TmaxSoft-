@@ -7,10 +7,10 @@ import scipy as sp
 ##### 1. 벡터 방법 tf-idf 방법   ######v
 
 
-#형태소 분석기
+#### 형태소 분석기
 t=Okt()
 
-#data slicing(한글질문 위주)
+#### data slicing(한글질문 위주)
 df=pd.read_csv("JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 df=df[2]
 df=df[:100]
@@ -19,11 +19,14 @@ contents=df.values.tolist()
 #print(df.head(3))
 
 
-#형태소 단위로 tokenize
+
+#### 형태소 단위로 tokenize
 contents_tokens=[t.morphs(row) for row in contents]
 #print('토큰나이징\n', contents_tokens[0])
 
-#형태소로 나눈 토큰을 띄어쓰기로 구분후 한문장으로 붙이기
+
+
+#### 형태소로 나눈 토큰을 띄어쓰기로 구분후 한문장으로 붙이기
 tok_sentence_forVectorize=[]
 
 for content in contents_tokens:
@@ -33,33 +36,38 @@ for content in contents_tokens:
     
 
     tok_sentence_forVectorize.append(sentence)
-#타겟 문장 설정하고, 현재 질문 DB에 동일한 질문이 있을시 질문DB에서 해당 질문을 삭제한다.
+
+#### 타겟 문장 설정하고, 현재 질문 DB에 동일한 질문이 있을시 질문DB에서 해당 질문을 삭제한다.
 target_q=tok_sentence_forVectorize[8]
 
 print("타겟 문장:\n", target_q)
 print("\n\n------------------")
 #print('원래문장\n',df[0:1],'\n형태소토큰단위로 쪼개진 문장\n', tok_sentence_forVectorize[0])
 
-#tf-idf vectorize
+
+#### tf-idf vectorize
 vectorizer = TfidfVectorizer(min_df=1, decode_error='ignore')
 vec=vectorizer.fit_transform(tok_sentence_forVectorize)
 num_samples, num_features =vec.shape
-print(num_samples, num_features)
+#print(num_samples, num_features)
 
-#이제 타겟이 될 질문을 정한다. 타겟문장의 번호로 설정
+#### 이제 타겟이 될 질문을 정한다. 타겟문장의 번호로 설정
 
-target_q=[target_q]
-print(target_q)
+target_q=[target_q] #임베딩하기위해 리스트 변환
 target_q_vec =vectorizer.transform(target_q)
-print(target_q_vec)
+print("타겟 질문의 임베딩 결과: \n", target_q_vec)
 
-#벡터 거리계산 함수 정의
+
+#### 벡터 거리계산 함수 정의
 def dist_raw(v1,v2):
     delta = v1 - v2
     return sp.linalg.norm(delta.toarray())
 
 
-#최적의 유사도를 가진 질문을 찾아보자[일단 best score1개만] (한글형태소 기반 토크나이징, tf-idf 벡터화(임베딩), norm메소드를 이용한 벡터거리 계산 이용)
+
+
+
+#### 최적의 유사도를 가진 질문을 찾아보자[일단 best score1개만] (한글형태소 기반 토크나이징, tf-idf 벡터화(임베딩), norm메소드를 이용한 벡터거리 계산 이용)
 best_q=None
 best_dist=65535
 best_i=None
@@ -77,4 +85,4 @@ for i in range(0,num_samples):
 
 print("Best recommendation question is %i -> %s, dist = %.3f" % (best_i,contents[best_i],best_dist))
 
-## 
+#### 여러개를 뽑아보자 그리고 비교해보자
