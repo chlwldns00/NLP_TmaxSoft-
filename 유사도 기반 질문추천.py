@@ -71,28 +71,21 @@ def dist_raw(v1,v2):
 #### 최적의 유사도를 가진 질문을 찾아보자[일단 best score1개만] (한글형태소 기반 토크나이징, tf-idf 벡터화(임베딩), norm메소드를 이용한 벡터거리 계산 이용)
 best_q=None
 best_dist=65535
-best_i=None
-dis=[]
+best_i=[]
+
 for i in range(0,num_samples):
     if i != 8: #제거한 문장 제외
         post_vec=vec.getrow(i)
 
-        dis.append(dist_raw(post_vec, target_q_vec))
-        if i<8:
-            print("==Post %i with dist=%.3f : %s" % (i,dis[i],contents[i]))
-            if dis[i] < best_dist:
-                best_dist=dis[i]
-                best_i=i
-        else:
-            print("==Post %i with dist=%.3f : %s" % (i-1,dis[i-1],contents[i]))
-            if dis[i-1] < best_dist:
-                best_dist=dis[i-1]
-                best_i=i
+        dis=dist_raw(post_vec, target_q_vec)
+        print("==Post %i with dist=%.3f : %s" % (i,dis,contents[i]))
 
-         
+        if dis < best_dist:
+            best_dist=dis
+            best_i.append(i)
 
 
 print('\n\n\n\n----------------------------------------------------------')
-print("Best recommendation question is %i -> %s, dist = %.3f" % (best_i,contents[best_i],best_dist))
-print('/n ',len(dis))
+print("Best recommendation question is %i -> %s, dist = %.3f" % (best_i[-1],contents[best_i[-1]],best_dist))
+print(len(best_i))
 #### 여러개를 뽑아보자 그리고 비교해보자
