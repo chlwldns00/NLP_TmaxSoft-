@@ -59,7 +59,7 @@ print("타겟 질문의 임베딩 결과: \n", target_q_vec)
 print('\n\n\n\n---------------------------------------')
 
 
-#### 벡터 거리계산 함수 정의
+####  단순 벡터 내적 거리계산 함수 정의
 def dist_raw(v1,v2):
     delta = v1 - v2
     return sp.linalg.norm(delta.toarray())
@@ -72,6 +72,7 @@ def dist_raw(v1,v2):
 best_q=None
 best_dist=65535
 best_i=[]
+dis_list=[]
 
 for i in range(0,num_samples):
     if i != 8: #제거한 문장 제외
@@ -87,5 +88,10 @@ for i in range(0,num_samples):
 
 print('\n\n\n\n----------------------------------------------------------')
 print("Best recommendation question is %i -> %s, dist = %.3f" % (best_i[-1],contents[best_i[-1]],best_dist))
-print(len(best_i))
-#### 여러개를 뽑아보자 그리고 비교해보자
+#best_i 리스트에서 최상위 n개의 score를 가진 관련질문을 뽑을 수 있다.
+
+
+
+
+####### 2.코사인 유사도로 구하기 ######
+
