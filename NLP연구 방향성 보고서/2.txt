@@ -1,0 +1,16 @@
+-Data Set Creation-
+질문세트 생성 question set
+요약을 통한 컨텍스트 프롬프트 생성 context-prompt through summaries -> TopicNode
+사용자 정의 script based on multiple contexts
+multiple contexts -> summarized author book & wikipedia
+기본 모델의 답변 능력을 종합적으로 평가하기 위해 고안되었습니다
+
+chess,solar,france,dating,continent ->wikipedia summarize    ==> contexts_1.json
+mockingbird->novel summarize
+
+위 
+summarized 된 context를 바탕으로 question1.json을 생성
+
+
+-verification-
+context 프롬프트가 출처 자료, 특히 책 부분을 정확하게 반영하고, 생성된 질문이 일관성 있고, 관련성이 있으며, 주어진 context와 밀접하게 연관되어 있음을 보장

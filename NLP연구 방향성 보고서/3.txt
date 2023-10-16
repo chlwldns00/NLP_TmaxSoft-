@@ -1,0 +1,9 @@
+knowngood sourcetag -> 생성된 답변에 "소스"로 일치하는 태그가 포함되어 있는지 확인함으로써 컨텍스트에 포함된 "잘 알려진" 소스 태그를 통해 제공되는 관련 정보를 사용한 출력을 평가할 수 있었습니다.
+topics package(top2vec_tests.py, TopicNode.py)
+<top2vec_tests.py>
+topicmodeling에 쓰이는 top2vec에 대한 모듈설정 및 테스트 인것 같다
+
+top2vec를 pip으로 설치하는데 hdbscan 설치 오류 해결 중->해결
+
+;known good; ->topics/topicnode.py
+openaicomms.py 의 openai.apikey openai.api_key = "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"

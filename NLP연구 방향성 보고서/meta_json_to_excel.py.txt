@@ -1,0 +1,7 @@
+<meta_json_to_excel.py>
+summarize 검색결과 -> 그냥 여기서 context정보 -> context.json 를 만들때, wikidipia를 요약했다는 내용이다
+따라서 summarize key값이 무슨의미인지 파악할수없었다
+또한 experiments에 대한 정보도 논문에서 단지 '실험정보' 로 밖에 안나와서 이거에 대한 key값을 확인하지 못하였다.
+또한 'no_ctx_sources' , 'question' key값 또한 주어진 바가 코드상에서 없는것같다.
+
+-논문에서 url에 대한 정보 파악하기

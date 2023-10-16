@@ -1,0 +1,6 @@
+url관련 코드
+[meta_json_to_excel.py]
+-message=URL no context
+[meta_json_urltest.py]
+-func -> count_valid_urls(text) -> 이 함수는 입력받은 str type의 text라는 문자열이 https://로 시작되고 \로 마무리 짓는지 정규식으로 거르는 함수이다. + request.exception 코드를 사용해서 https형식이 아닌 url일 경우, http응답이 200이 아닌경우에 대해서 예외처리를 한다
+ **이코드에서 나온 url은 실제 https://로 시작하는 url인것같다 -->그렇다면 어떤방식으로 이 url을 생성하며, 이 url로 어떻게 hallucination인지 아닌지 good,bad url을 산정하느냐를 알아야될것같다. 

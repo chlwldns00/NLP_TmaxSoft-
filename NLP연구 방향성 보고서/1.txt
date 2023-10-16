@@ -1,0 +1,6 @@
+
+-meta_wrapping2.py-
+
+ctx_key->['pfeldman','jfoulds','span','ccheah']      |||||| pfeldman
+raw_context->위 각각에 해당하는 context str값                 |||||| converting context 'pdfeldman' ('pdfeldman:에 해당되는 context에서 . 단위로 스                                                                                   플릿한 값 즉 한줄단위로 나오게)
+cooked_context=add_markers(raw_context)
