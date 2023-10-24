@@ -20,7 +20,7 @@ paragraph_tokens = tokenizer.tokenize(paragraph)
 tokens = question_tokens + paragraph_tokens 
 input_ids = tokenizer.convert_tokens_to_ids(tokens)
 
-#질문과 단락을 구분하는 세그먼트 id값 추가 0:질문 , 1:단락
+#질문과 단락을 구분하는 세그먼트 id값 추가 0:질문 , 1s:단락
 segment_ids = [0] * len(question_tokens)
 segment_ids += [1] * len(paragraph_tokens)
 

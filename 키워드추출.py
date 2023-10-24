@@ -112,12 +112,14 @@ def textrank_keysentence(sents, tokenize, min_count, similarity, df=0.85, max_it
     keysents = [(idx, R[idx], sents[idx]) for idx in reversed(idxs)]
     return keysents
 
-## tokenizer ## (명사와 동사만 추출하는 토크나이저)
+
+##### 키워드 뽑기 ### 
+
+#KoNLPy Komoran 토크나이저
 from konlpy.tag import Komoran
 
 komoran = Komoran()
-def komoran_tokenize(sent):
+def komoran_tokenizer(sent):
     words = komoran.pos(sent, join=True)
     words = [w for w in words if ('/NN' in w or '/XR' in w or '/VA' in w or '/VV' in w)]
     return words
-

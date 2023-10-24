@@ -22,7 +22,7 @@ contents=df.values.tolist()
 
 #### 형태소 단위로 tokenize
 contents_tokens=[t.morphs(row) for row in contents]
-#print('토큰나이징\n', contents_tokens[0])
+print('토큰나이징\n', contents_tokens[0])
 
 
 
@@ -36,7 +36,7 @@ for content in contents_tokens:
     
 
     tok_sentence_forVectorize.append(sentence)
-
+print(tok_sentence_forVectorize[0])
 #### 타겟 문장 설정하고, 현재 질문 DB에 동일한 질문이 있을시 질문DB에서 해당 질문을 삭제한다.
 target_q=tok_sentence_forVectorize[8]
 
