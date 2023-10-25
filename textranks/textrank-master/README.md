@@ -1,4 +1,6 @@
 ## Re-iplementation of TextRank [^1]
+-----------------
+## TextRank를 사용한 문단/문장에서 키워드 / 핵심문장 extraction
 
 To summarize La La Land user comments by keyword extraction with part-of-speech tagged documents
 
