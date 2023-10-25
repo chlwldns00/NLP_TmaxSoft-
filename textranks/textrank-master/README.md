@@ -148,6 +148,9 @@ summarizer.summarize(sents, topk=20)
  ('연합뉴스/NNP', 1.3259099432277819),
  ('이씨/NNP', 1.2869280494707418)]
 ```
+---------------
+++
+Jeus_QA_DB.csv활용해서 키워드/핵심문장 추출 테스팅 (test_keysentences.py , test_noun_keyword.py)
 
 
 ## References
