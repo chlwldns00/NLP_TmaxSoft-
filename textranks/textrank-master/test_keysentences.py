@@ -49,4 +49,5 @@ summarizer = KeysentenceSummarizer(
     verbose = False
 )
 keysents = summarizer.summarize(sent, topk=3)
+print(type(keysents))
 print(keysents)
