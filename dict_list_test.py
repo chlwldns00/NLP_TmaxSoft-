@@ -12,3 +12,16 @@ dict=str(dict)
 print(type(dict))
 dict=eval(dict)
 print(type(dict))
+
+l=list(dict.items())
+print(l[0][0])
+print(l[0][1])
+print(len(l))
+del l[0]
+print(l)
+
+a=[1,2,3]
+del a[0]
+print(a)
+b=a+l
+print(b)
