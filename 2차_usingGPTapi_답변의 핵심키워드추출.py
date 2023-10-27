@@ -20,6 +20,7 @@ tok_sentence_forVectorize=[]
 def tokenize(df):
     for sentences in df:  #### 전처리및 토크나이징
         
+        sentences=str(sentences)
         sentences=sentences.replace('\n','')
         sentences=sentences.replace(',','')
         sentences=sentences.replace('"','')
@@ -39,6 +40,7 @@ def tokenize(df):
 def tokenize_to_fullsents(df):
     for sentences in df:  #### 전처리및 토크나이징 후 유사도 비교를 위해 다시붙이기
         
+        sentences=str(sentences)
         sentences=sentences.replace('\n','')
         sentences=sentences.replace(',','')
         sentences=sentences.replace('"','')
@@ -46,6 +48,7 @@ def tokenize_to_fullsents(df):
         sentences=sentences.replace('-','')
         sentences=sentences.replace('(','')
         sentences=sentences.replace(')','')
+
 
         #print(sentences)
         contents_tokens=t.morphs(sentences)
@@ -95,7 +98,7 @@ def keyword_extractor_answer(tokenizinedList):
 
 
 ####### 10/26~ 키워드 비교 작업후 추천키워드에 핵심이 될 키워드 선정() 1차:질문의 키워드랑 겹치는 키워드 제거######
-def define_recomm_keyword(key_ans,key_qes,tokens):
+def define_recomm_keyword(key_ans,key_qes):
     
     for i in range(len(key_ans)):
         for j in range(len(key_qes)):
@@ -103,7 +106,7 @@ def define_recomm_keyword(key_ans,key_qes,tokens):
                 del key_ans[i]
     
     #2차 겹치는거 제거후 질문과 가장 유사도가 작은 키워드 추출 하위 3개
-    model=word2vec.Word2Vec(tokens,min_count=1)
+    
     model.wv.similarity()
     return key_ans
 
@@ -112,13 +115,19 @@ def define_recomm_keyword(key_ans,key_qes,tokens):
 
 df=pd.read_csv("JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 df_q=df[2]
-df_q=df_q[:1]
+df_q=df_q[:680]
 df_a=df[3] #답변데이터 추출
-df_a=df_a[:1]  
-df_q=df.values.tolist() #리스트로 시작(매개변수)
-df_a=df.values.tolist()
+df_a=df_a[:680]  
+df_q=df_q.values.tolist() #리스트로 시작(매개변수)
+df_a=df_a.values.tolist()
 df_a=tokenize(df_a)
 df_q=tokenize(df_q)
+
+tokens=df_a+df_q  #단어:단어 smililarity 비교 위해 word2vec모델 정의
+model=word2vec.Word2Vec(tokens,min_count=1)
+model_name="recmodel"
+model.save("model_name")
+
 key_ans=list(keyword_extractor_answer(df_a).items())
 key_qes=list(keyword_extractor_answer(df_q).items())
 recomm_keyword=define_recomm_keyword(key_ans,key_ans)
