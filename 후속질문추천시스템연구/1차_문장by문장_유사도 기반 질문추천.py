@@ -88,6 +88,8 @@ for i in range(0,num_samples):
 
 print('\n\n\n\n----------------------------------------------------------')
 print("Best recommendation question is %i -> %s, dist = %.3f" % (best_i[-1],contents[best_i[-1]],best_dist))
+print("Best recommendation question is %i -> %s, dist = %.3f" % (best_i[-2],contents[best_i[-2]],best_dist))
+print("Best recommendation question is %i -> %s, dist = %.3f" % (best_i[-3],contents[best_i[-3]],best_dist))
 #best_i 리스트에서 최상위 n개의 score를 가진 관련질문을 뽑을 수 있다.
 
 

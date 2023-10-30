@@ -28,7 +28,7 @@ def tokenize(df):
         sentences=sentences.replace('-','')
         sentences=sentences.replace('(','')
         sentences=sentences.replace(')','')
-
+        sentences=sentences.replace('.','')
         #print(sentences)
         contents_tokens=t.morphs(sentences)
         tokenized.append(contents_tokens)
@@ -48,6 +48,10 @@ def tokenize_to_fullsents(df):
         sentences=sentences.replace('-','')
         sentences=sentences.replace('(','')
         sentences=sentences.replace(')','')
+        sentences=sentences.replace('.','')
+        sentences=sentences.replace('{','')
+        sentences=sentences.replace('}','')
+        sentences=sentences.replace('`','')
 
 
         #print(sentences)
@@ -72,12 +76,12 @@ def tokenize_to_fullsents(df):
     
 ###타겟질문의 상위3개 문맥을 고려한 키워드와, 타겟질문의 답변의 문맥을 고려한 상위 3개 키워드를 비교하여 동일하게 일치되지 않은 키워드를 추천중요 키워드로 선정한다
 
-def keyword_extractor_answer(tokenizinedList):
+def keyword_extractor_Qanswer(tokenizinedList):
     idx=0 #### gpt로 키워드 뽑는 부분
 
     answer=tokenizinedList[idx] #토큰화된것중에 타겟질문에 대한 해답을 index로 반환해주는 idx
     context=str(df[1][idx]) #gpt 시스템에서는 context가 존재하지않는거 같다. 혹은 context로 어떤것을 넣어줘야할지는 미정.
-    prompt=context+'\n 위 문맥을 참고해서\n'+answer+' 다음 문장의 핵심 키워드들을 중요한 순서대로 dict자료형으로 뽑아줘'
+    prompt=context+'\n 위 문맥을 참고해서\n'+answer+' 다음 문장의 핵심 키워드들을 문맥을 참고하여 중요한 순서대로 dict자료형으로 뽑아줘'
     completion = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages = [
@@ -96,21 +100,28 @@ def keyword_extractor_answer(tokenizinedList):
 
 
 
-
-####### 10/26~ 키워드 비교 작업후 추천키워드에 핵심이 될 키워드 선정() 1차:질문의 키워드랑 겹치는 키워드 제거######
+smallest=1
+####### 10/26~ 키워드 비교 작업후 추천키워드에 핵심이 될 키워드 선정() 1차:질문의 키워드랑 겹치는 키워드(포함관계가 성립되는) 제거######
 def define_recomm_keyword(key_ans,key_qes,model):
     
+    key_ans_list=[]
+    final=[]
     for i in range(len(key_ans)):
         for j in range(len(key_qes)):
             if key_ans[i][0]==key_qes[j][0]:
                 del key_ans[i]
     
     #2차 겹치는거 제거후 질문과 가장 유사도가 작은 키워드 추출 하위 3개(word2vec활용해서)10/27 10/30~
-    for i in range(len(key_ans)):
-        model.wv.similarity()
+    for i in range(len(key_qes)):
+        for j in range(len(key_ans)):
+            key_ans_list.append(model.wv.similarity(key_qes[i][0],key_ans[j][0]))#여기서 판별함수를 어떤걸 사용할지
     
-    
-    return key_ans
+    indexed_list = list(enumerate(key_ans_list))
+    sorted_list = sorted(indexed_list, key=lambda x: x[1], reverse=True)
+    sorted_indices = [item[0] for item in sorted_list]
+        
+
+    return final
 
 
 ##### 추출한 최종키워드와 답변컬럼 df_a 와의 유사도가 가장높은 상위 n개 문장선택후, 그에 대응되는 질문 추출(최종)
@@ -130,16 +141,18 @@ df_q=df[2]
 df_q=df_q[:680]
 df_a=df[3] #답변데이터 추출
 df_a=df_a[:680]  
+
 df_q=df_q.values.tolist() #리스트로 시작(매개변수)
 df_a=df_a.values.tolist()
+
 df_a=tokenize(df_a)
 df_q=tokenize(df_q)
 
-model=word2vec.Word2Vec.load("recmodel") # 미리 정의해둔 모델을 불러옴(제우스 메뉴얼 + 질 + 답 토크나이징 데이터 학습시킨 word2vec모델)
+model=word2vec.Word2Vec.load("reccmodel") # 미리 정의해둔 모델을 불러옴(제우스 메뉴얼 + 질 + 답 토크나이징 데이터 학습시킨 word2vec모델)
 
 
-key_ans=list(keyword_extractor_answer(df_a).items())
-key_qes=list(keyword_extractor_answer(df_q).items())
+key_ans=list(keyword_extractor_Qanswer(df_a).items())
+key_qes=list(keyword_extractor_Qanswer(df_q).items())
 recomm_keyword=define_recomm_keyword(key_ans,key_ans,model)
 
 
