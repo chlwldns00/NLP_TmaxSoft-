@@ -98,17 +98,29 @@ def keyword_extractor_answer(tokenizinedList):
 
 
 ####### 10/26~ 키워드 비교 작업후 추천키워드에 핵심이 될 키워드 선정() 1차:질문의 키워드랑 겹치는 키워드 제거######
-def define_recomm_keyword(key_ans,key_qes):
+def define_recomm_keyword(key_ans,key_qes,model):
     
     for i in range(len(key_ans)):
         for j in range(len(key_qes)):
             if key_ans[i][0]==key_qes[j][0]:
                 del key_ans[i]
     
-    #2차 겹치는거 제거후 질문과 가장 유사도가 작은 키워드 추출 하위 3개
+    #2차 겹치는거 제거후 질문과 가장 유사도가 작은 키워드 추출 하위 3개(word2vec활용해서)10/27 10/30~
+    for i in range(len(key_ans)):
+        model.wv.similarity()
     
-    model.wv.similarity()
+    
     return key_ans
+
+
+##### 추출한 최종키워드와 답변컬럼 df_a 와의 유사도가 가장높은 상위 n개 문장선택후, 그에 대응되는 질문 추출(최종)
+
+
+
+
+
+
+##### 
 
 
 #####  main  ###############
@@ -123,14 +135,12 @@ df_a=df_a.values.tolist()
 df_a=tokenize(df_a)
 df_q=tokenize(df_q)
 
-tokens=df_a+df_q  #단어:단어 smililarity 비교 위해 word2vec모델 정의
-model=word2vec.Word2Vec(tokens,min_count=1)
-model_name="recmodel"
-model.save("model_name")
+model=word2vec.Word2Vec.load("recmodel") # 미리 정의해둔 모델을 불러옴(제우스 메뉴얼 + 질 + 답 토크나이징 데이터 학습시킨 word2vec모델)
+
 
 key_ans=list(keyword_extractor_answer(df_a).items())
 key_qes=list(keyword_extractor_answer(df_q).items())
-recomm_keyword=define_recomm_keyword(key_ans,key_ans)
+recomm_keyword=define_recomm_keyword(key_ans,key_ans,model)
 
 
 
