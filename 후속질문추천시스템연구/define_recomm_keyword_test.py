@@ -116,7 +116,7 @@ model=word2vec.Word2Vec(tokens,min_count=1)
 model_name="reccmodel2"
 model.save(model_name)
 model=word2vec.Word2Vec.load("reccmodel2")
-new_word = "babo"
+new_word = "애플리케이션클라이언트"
 model.wv.index_to_key.append(new_word)
 model.wv.key_to_index[new_word] = len(model.wv.index_to_key) - 1
 model.build_vocab([new_word], update=True)
@@ -125,12 +125,12 @@ model.save(model_name)
 
 voc=model.wv.index_to_key
 # voc=voc+list
-if "babo" in voc:
+if "애플리케이션클라이언트" in voc:
     print("1")
     
 print(voc)
 
-print(model.wv.most_similar('babo'))
+print(model.wv.most_similar('애플리케이션클라이언트'))
 # # print(a)
 
 # l=[1,2,3,4,5,6,7,8,9]
