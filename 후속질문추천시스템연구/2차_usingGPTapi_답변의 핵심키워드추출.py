@@ -100,18 +100,36 @@ def keyword_extractor_Qanswer(tokenizinedList):
 
 
 
-smallest=1
+
 ####### 10/26~ 키워드 비교 작업후 추천키워드에 핵심이 될 키워드 선정() 1차:질문의 키워드랑 겹치는 키워드(포함관계가 성립되는) 제거######
-def define_recomm_keyword(key_ans,key_qes,model):
+def define_recomm_keyword1(key_ans,key_qes):
     
+    keyword_list=[]
+    for i in range(len(key_qes)):
+        for j in range(len(key_ans)-1,-1,-1):
+            if key_qes[i][0] in key_ans[j][0]:
+                del key_ans[j] # **error index out of range에러 =>> 해결
+    
+    for item in key_ans:
+        a=item[0].replace(' ','')
+        keyword_list.append(a)
+    
+    return keyword_list
+
+    #2차 겹치는거 제거후 질문과 가장 유사도가 작은 키워드 추출 하위 3개(word2vec활용해서)10/27 10/30~
+    # ***[errror] gpt api에서 뽑은 키워드 워딩과 word2vec모델에서의 토크나이징된 워딩이 서로일치하지 않아 
+    # word2vec모델의 메소드에서 key 에러가 났다 
+    # -> gpt api에서는 두 단어를 합친 키워드를 사용했으므로, 합친단어를 공백을 제거하고 토큰하나로 취급해 
+    # 추가적으로 model에 넣어주는 선에서 해결
+
+
+
+
+
+    #2차 겹치는거 제거후 질문과 가장 유사도가 작은 키워드 추출 하위 3개(word2vec활용해서)10/27 10/30~
+def define_recomm_keyword2(key_ans,key_qes,model):
     key_ans_list=[]
     final=[]
-    for i in range(len(key_ans)):
-        for j in range(len(key_qes)):
-            if key_qes[j][0] in key_ans[i][0]:
-                del key_ans[i]
-    
-    #2차 겹치는거 제거후 질문과 가장 유사도가 작은 키워드 추출 하위 3개(word2vec활용해서)10/27 10/30~
     for i in range(len(key_qes)):
         for j in range(len(key_ans)):
             key_ans_list.append(model.wv.similarity(key_qes[i][0],key_ans[j][0]))#여기서 판별함수를 어떤걸 사용할지
@@ -149,12 +167,15 @@ df_a=df_a.values.tolist()
 df_a=tokenize(df_a)
 df_q=tokenize(df_q)
 
-model=word2vec.Word2Vec.load("reccmodel") # 미리 정의해둔 모델을 불러옴(제우스 메뉴얼 + 질 + 답 토크나이징 데이터 학습시킨 word2vec모델)
+ # 미리 정의해둔 모델을 불러옴(제우스 메뉴얼 + 질 + 답 토크나이징 데이터 학습시킨 word2vec모델)
 
 
 key_ans=list(keyword_extractor_Qanswer(df_a).items())
 key_qes=list(keyword_extractor_Qanswer(df_q).items())
-recomm_keyword=define_recomm_keyword(key_ans,key_ans,model)
+recomm_keyword_1=define_recomm_keyword1(key_ans,key_qes)
+tokens=df_a+df_q+recomm_keyword_1
+model=word2vec.Word2Vec(tokens,min_count=1)
+recomm_keyword_2=define_recomm_keyword2(recomm_keyword_1,key_qes,model)
 
 
 
