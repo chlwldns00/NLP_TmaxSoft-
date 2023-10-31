@@ -22,7 +22,7 @@ contents=df.values.tolist()
 
 #### 형태소 단위로 tokenize
 contents_tokens=[t.morphs(row) for row in contents]
-print('토큰나이징\n', contents_tokens[0])
+print('토큰나이징\n', contents_tokens[5])
 
 
 

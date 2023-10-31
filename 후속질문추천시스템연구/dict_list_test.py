@@ -12,13 +12,13 @@ dict2={
     "서비스": None,
     "이용": None
 }
-print(type(dict))
+print(type(dict1))
 
-dict=str(dict)
+dict=str(dict1)
 print(type(dict))
 dict=eval(dict)
 print(type(dict))
-
+print(len(dict))
 l=list(dict.items())
 print(l[0][0])
 print(l[0][1])

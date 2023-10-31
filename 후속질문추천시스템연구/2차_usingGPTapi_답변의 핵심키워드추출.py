@@ -108,7 +108,7 @@ def define_recomm_keyword(key_ans,key_qes,model):
     final=[]
     for i in range(len(key_ans)):
         for j in range(len(key_qes)):
-            if key_ans[i][0]==key_qes[j][0]:
+            if key_qes[j][0] in key_ans[i][0]:
                 del key_ans[i]
     
     #2차 겹치는거 제거후 질문과 가장 유사도가 작은 키워드 추출 하위 3개(word2vec활용해서)10/27 10/30~
@@ -118,7 +118,8 @@ def define_recomm_keyword(key_ans,key_qes,model):
     
     indexed_list = list(enumerate(key_ans_list))
     sorted_list = sorted(indexed_list, key=lambda x: x[1], reverse=True)
-    sorted_indices = [item[0] for item in sorted_list]
+    sorted_list = sorted_list[-3:]
+    final = [item[0]%(len(key_qes)) for item in sorted_list]
         
 
     return final
