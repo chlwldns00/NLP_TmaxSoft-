@@ -30,16 +30,32 @@ def define_recomm_keyword1(key_ans,key_qes):
     # 추가적으로 model에 넣어주는 선에서 해결
     
 def define_recomm_keyword2(key_ans,key_qes,model):
+    for i in range(len(key_ans)):  #answer 키워드 w2v vocabulary 리스트 삽입
+        new_word=key_ans[i]
+        model.wv.index_to_key.append(new_word)
+        model.wv.key_to_index[new_word] = len(model.wv.index_to_key) - 1
+        model.build_vocab([new_word], update=True)
+        model.save("reccmodel2")
+    
+
+    for i in range(len(key_qes)):  #question 키워드 w2v vocabulary 리스트 삽입
+        new_word=key_qes[i]
+        model.wv.index_to_key.append(new_word)
+        model.wv.key_to_index[new_word] = len(model.wv.index_to_key) - 1
+        model.build_vocab([new_word], update=True)
+        model.save("reccmodel2")
+    
     key_ans_list=[]
     final=[]
     for i in range(len(key_qes)):
         for j in range(len(key_ans)):
             key_ans_list.append(model.wv.similarity(key_qes[i][0],key_ans[j][0]))#여기서 판별함수를 어떤걸 사용할지
     
-    indexed_list = list(enumerate(key_ans_list))
+    indexed_list = list(enumerate(key_ans_list)) #error부분
     sorted_list = sorted(indexed_list, key=lambda x: x[1], reverse=True)
     sorted_list = sorted_list[-3:]
-    final = [item[0]%(len(key_qes)) for item in sorted_list]
+    final = [key_ans[item[0]%(len(key_qes)-1)] for item in sorted_list]
+    #final2 = [key_ans[i] for i in final]
         
 
     return final
@@ -93,7 +109,7 @@ dict2=list(dict2.items())
 #             del dict1[j] # **error
 #             print(dict1)
 
-df=pd.read_csv("JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
+df=pd.read_csv("후속질문추천시스템연구/JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 
 
 df_q=df[2]
@@ -106,33 +122,41 @@ df_a=df_a.values.tolist()
 
 df_a=tokenize(df_a)
 df_q=tokenize(df_q)
-list=define_recomm_keyword1(dict1,dict2)
-print(list)
+lis=define_recomm_keyword1(dict1,dict2)
+print(lis)
 tokens=[]
-tokens=df_a+df_q+list
+tokens=df_a+df_q+lis
 print(tokens[-3:])
 # print(tokens) ##manual DB까지 포함시키면 오히려 단어 유사도를 잘 못 측정하는거 같아서, 질답 DB만 토크나이징 해서 학습시켰다. 
 model=word2vec.Word2Vec(tokens,min_count=1)
 model_name="reccmodel2"
 model.save(model_name)
-model=word2vec.Word2Vec.load("reccmodel2")
-new_word = "애플리케이션클라이언트"
-model.wv.index_to_key.append(new_word)
-model.wv.key_to_index[new_word] = len(model.wv.index_to_key) - 1
-model.build_vocab([new_word], update=True)
-model.save(model_name)
-#model.train([new_word], total_examples=model.corpus_count, epochs=model.epochs)
+model=word2vec.Word2Vec.load(model_name)
+final=define_recomm_keyword2(lis,dict2,model)
 
-voc=model.wv.index_to_key
-# voc=voc+list
-if "애플리케이션클라이언트" in voc:
-    print("1")
+
+print(final)
+print(lis[i] for i in final)
+#rint(lis[2],lis[1],lis[0])
+
+
+# new_word = "애플리케이션클라이언트"
+# model.wv.index_to_key.append(new_word)
+# model.wv.key_to_index[new_word] = len(model.wv.index_to_key) - 1
+# model.build_vocab([new_word], update=True)
+# model.save(model_name)
+# #model.train([new_word], total_examples=model.corpus_count, epochs=model.epochs)
+
+# voc=model.wv.index_to_key
+# # voc=voc+list
+# if "애플리케이션클라이언트" in voc:
+#     print("1")
     
-print(voc)
+# print(voc)
 
-print(model.wv.most_similar('애플리케이션클라이언트'))
-# # print(a)
+# print(model.wv.most_similar('애플리케이션클라이언트'))
+# # # print(a)
 
-# l=[1,2,3,4,5,6,7,8,9]
-# b=l[-3:]
-# print(b)
+# # l=[1,2,3,4,5,6,7,8,9]
+# # b=l[-3:]
+# # print(b)

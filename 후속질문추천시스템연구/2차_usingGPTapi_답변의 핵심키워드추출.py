@@ -120,7 +120,7 @@ def define_recomm_keyword1(key_ans,key_qes):
     # ***[errror] gpt api에서 뽑은 키워드 워딩과 word2vec모델에서의 토크나이징된 워딩이 서로일치하지 않아 
     # word2vec모델의 메소드에서 key 에러가 났다 
     # -> gpt api에서는 두 단어를 합친 키워드를 사용했으므로, 합친단어를 공백을 제거하고 토큰하나로 취급해 
-    # 추가적으로 model에 넣어주는 선에서 해결
+    # 추가적으로 model에 넣어주는 선(w2v.wv.vocabulary list 에 넣어주는 선)에서 해결
 
 
 
@@ -128,23 +128,41 @@ def define_recomm_keyword1(key_ans,key_qes):
 
     #2차 겹치는거 제거후 질문과 가장 유사도가 작은 키워드 추출 하위 3개(word2vec활용해서)10/27 10/30~
 def define_recomm_keyword2(key_ans,key_qes,model):
-    key_ans_list=[]
+
+    for i in range(len(key_ans)):  #answer 키워드 w2v vocabulary 리스트 삽입
+        new_word=key_ans[i]
+        model.wv.index_to_key.append(new_word)
+        model.wv.key_to_index[new_word] = len(model.wv.index_to_key) - 1
+        model.build_vocab([new_word], update=True)
+        model.save("reccmodel2")
+    
+
+    for i in range(len(key_qes)):  #question 키워드 w2v vocabulary 리스트 삽입
+        new_word=key_qes[i]
+        model.wv.index_to_key.append(new_word)
+        model.wv.key_to_index[new_word] = len(model.wv.index_to_key) - 1
+        model.build_vocab([new_word], update=True)
+        model.save("reccmodel2")
+    
+    
+
+    key_ans_score_list=[]
     final=[]
     for i in range(len(key_qes)):
         for j in range(len(key_ans)):
-            key_ans_list.append(model.wv.similarity(key_qes[i][0],key_ans[j][0]))#여기서 판별함수를 어떤걸 사용할지
+            key_ans_score_list.append(model.wv.similarity(key_qes[i][0],key_ans[j][0]))#남은 answer keyword list와 
     
-    indexed_list = list(enumerate(key_ans_list))
+    indexed_list = list(enumerate(key_ans_score_list))
     sorted_list = sorted(indexed_list, key=lambda x: x[1], reverse=True)
     sorted_list = sorted_list[-3:]
-    final = [item[0]%(len(key_qes)) for item in sorted_list]
+    final = [key_ans[item[0]%(len(key_qes)-1)] for item in sorted_list]
         
 
     return final
 
 
 ##### 추출한 최종키워드와 답변컬럼 df_a 와의 유사도가 가장높은 상위 n개 문장선택후, 그에 대응되는 질문 추출(최종)
-
+### gpt api로 새롭게 생성한 질문이여도 낫뱃인듯
 
 
 
