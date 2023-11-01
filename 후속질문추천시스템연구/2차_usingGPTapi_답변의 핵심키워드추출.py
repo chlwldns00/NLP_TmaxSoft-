@@ -79,9 +79,9 @@ def tokenize_to_fullsents(df):
 def keyword_extractor_Qanswer(tokenizinedList):
     idx=0 #### gpt로 키워드 뽑는 부분
 
-    answer=tokenizinedList[idx] #토큰화된것중에 타겟질문에 대한 해답을 index로 반환해주는 idx
-    context=str(df[1][idx]) #gpt 시스템에서는 context가 존재하지않는거 같다. 혹은 context로 어떤것을 넣어줘야할지는 미정.
-    prompt=context+'\n 위 문맥을 참고해서\n'+answer+' 다음 문장의 핵심 키워드들을 문맥을 참고하여 중요한 순서대로 dict자료형으로 뽑아줘'
+    answer=str(tokenizinedList[idx]) #토큰화된것중에 타겟질문에 대한 해답을 index로 반환해주는 idx
+    context='' #gpt 시스템에서는 context가 존재하지않는거 같다. 혹은 context로 어떤것을 넣어줘야할지는 미정.
+    prompt=context+answer+' 다음 문장의 핵심 키워드들을 문맥을 참고하여 중요한 순서대로 dict자료형으로 뽑아줘'
     completion = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages = [
@@ -126,7 +126,7 @@ def define_recomm_keyword1(key_ans,key_qes):
 
 
 
-    #2차 겹치는거 제거후 질문과 가장 유사도가 작은 키워드 추출 하위 3개(word2vec활용해서)10/27 10/30~
+    #2차 겹치는거 제거후 질문과 가장 유사도가 높은 키워드 추출  상위3개(word2vec.wv.similarity활용해서)10/27 10/30~
 def define_recomm_keyword2(key_ans,key_qes,model):
 
     for i in range(len(key_ans)):  #answer 키워드 w2v vocabulary 리스트 삽입
@@ -147,18 +147,18 @@ def define_recomm_keyword2(key_ans,key_qes,model):
     
 
     key_ans_score_list=[]
-    final=[]
+    final_keyword_list=[]
     for i in range(len(key_qes)):
         for j in range(len(key_ans)):
             key_ans_score_list.append(model.wv.similarity(key_qes[i][0],key_ans[j][0]))#남은 answer keyword list와 
     
     indexed_list = list(enumerate(key_ans_score_list))
     sorted_list = sorted(indexed_list, key=lambda x: x[1], reverse=True)
-    sorted_list = sorted_list[-3:]
-    final = [key_ans[item[0]%(len(key_qes)-1)] for item in sorted_list]
+    sorted_list = sorted_list[:3] # 내림차순 정리후 유사도가 가장 높은 상위3개 select
+    final_keyword_list = [key_ans[item[0]%(len(key_qes)-1)] for item in sorted_list]
         
 
-    return final
+    return final_keyword_list
 
 
 ##### 추출한 최종키워드와 답변컬럼 df_a 와의 유사도가 가장높은 상위 n개 문장선택후, 그에 대응되는 질문 추출(최종)
@@ -173,7 +173,7 @@ def define_recomm_keyword2(key_ans,key_qes,model):
 
 #####  main  ###############
 
-df=pd.read_csv("JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
+df=pd.read_csv("후속질문추천시스템연구/JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 df_q=df[2]
 df_q=df_q[:680]
 df_a=df[3] #답변데이터 추출
@@ -194,7 +194,7 @@ recomm_keyword_1=define_recomm_keyword1(key_ans,key_qes)
 tokens=df_a+df_q+recomm_keyword_1
 model=word2vec.Word2Vec(tokens,min_count=1)
 recomm_keyword_2=define_recomm_keyword2(recomm_keyword_1,key_qes,model)
-
+print(recomm_keyword_2)
 
 
 
