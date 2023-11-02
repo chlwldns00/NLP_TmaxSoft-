@@ -165,8 +165,12 @@ def define_recomm_keyword2(key_ans,key_qes,model):
 ### gpt api로 새롭게 생성한 질문이여도 낫뱃인듯
 
 
+def generate_recommend(final_keyword_list):
+    for i in range(len(final_keyword_list)):
+        final_keyword_list[i]
 
-
+def create_question_usingGpt(final_keyword_list):
+    return
 
 ##### 
 
