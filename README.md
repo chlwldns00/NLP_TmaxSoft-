@@ -7,7 +7,7 @@
 ## - 자체 제작 알고리즘 구상
 ## - 자연어 질문 임베딩후 유사도 측정 및 추천 필터링 
 ## - textRank 알고리즘 이용한 문서/문장에서 키워드 summarize
-## - word2vec모델을 학습시킨후 단어:단어 유사도 비교해서 핵심키워드 추
+## - word2vec모델을 학습시킨후 단어:단어 유사도 비교해서 핵심키워드 추출
 -----------------
 ## 사용해본 pre-trained 모델
 1. [bert-base-uncased](https://huggingface.co/bert-base-uncased), kobert
