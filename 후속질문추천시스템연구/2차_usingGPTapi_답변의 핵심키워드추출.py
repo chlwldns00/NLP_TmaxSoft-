@@ -174,6 +174,28 @@ def create_question_usingGpt(final_keyword_list):
 
 ##### 
 
+def final_recommend_byGPT(tokenizinedList,final_keyword_list):
+    idx=0 #### gpt로 키워드 뽑는 부분(생성된 타겟 질문/답변에 접근할수있는 idx라고 일단가정)
+
+    answer=str(tokenizinedList[idx]) #토큰화된것중에 타겟질문에 대한 해답을 index로 반환해주는 idx
+    keyword=final_keyword_list[idx]
+    context='' #gpt 시스템에서는 context가 존재하지않는거 같다. 혹은 context로 어떤것을 넣어줘야할지는 미정.
+    prompt=context+answer+'다음 문단을 참조하여 '+keyword+' 와 관련된 추가질문을 리스트 형태로 뽑아줘'
+    completion = openai.ChatCompletion.create(
+        model = "gpt-3.5-turbo",
+        messages = [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role":"user","content":prompt}
+        ]
+    )
+
+
+    keyword_dict=completion.choices[0].message.content
+    print(type(keyword_dict))
+    keyword_dict=eval(keyword_dict) #str->dict type difference
+
+    print(completion.choices[0].message.content)
+    return keyword_dict
 
 #####  main  ###############
 

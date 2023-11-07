@@ -109,28 +109,28 @@ dict2=list(dict2.items())
 #             del dict1[j] # **error
 #             print(dict1)
 
-df=pd.read_csv("후속질문추천시스템연구/JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
+# df=pd.read_csv("후속질문추천시스템연구/JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 
 
-df_q=df[2]
-df_q=df_q[:680]
-df_a=df[3] #답변데이터 추출
-df_a=df_a[:680]  
+# df_q=df[2]
+# df_q=df_q[:680]
+# df_a=df[3] #답변데이터 추출
+# df_a=df_a[:680]  
 
-df_q=df_q.values.tolist() #리스트로 시작(매개변수)
-df_a=df_a.values.tolist()
+# df_q=df_q.values.tolist() #리스트로 시작(매개변수)
+# df_a=df_a.values.tolist()
 
-df_a=tokenize(df_a)
-df_q=tokenize(df_q)
+# df_a=tokenize(df_a)
+# df_q=tokenize(df_q)
 lis=define_recomm_keyword1(dict1,dict2)
-print(lis)
-tokens=[]
-tokens=df_a+df_q+lis
-print(tokens[-3:])
-# print(tokens) ##manual DB까지 포함시키면 오히려 단어 유사도를 잘 못 측정하는거 같아서, 질답 DB만 토크나이징 해서 학습시켰다. 
-model=word2vec.Word2Vec(tokens,min_count=1)
+# print(lis)
+# tokens=[]
+# tokens=df_a+df_q+lis
+# print(tokens[-3:])
+# # print(tokens) ##manual DB까지 포함시키면 오히려 단어 유사도를 잘 못 측정하는거 같아서, 질답 DB만 토크나이징 해서 학습시켰다. 
+# model=word2vec.Word2Vec(tokens,min_count=1)
 model_name="reccmodel2"
-model.save(model_name)
+# model.save(model_name)
 model=word2vec.Word2Vec.load(model_name)
 final=define_recomm_keyword2(lis,dict2,model)
 

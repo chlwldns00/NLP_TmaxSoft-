@@ -3,7 +3,7 @@ from konlpy.tag import Okt
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 import scipy as sp
-
+import numpy as np
 ##### 1. 벡터 방법 tf-idf 방법   ######v
 
 
@@ -11,7 +11,7 @@ import scipy as sp
 t=Okt()
 
 #### data slicing(한글질문 위주, 100개만 잘라서 테스트)
-df=pd.read_csv("JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
+df=pd.read_csv("후속질문추천시스템연구/JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 df=df[2]
 df=df[:100]  
 contents=df.values.tolist()
@@ -56,15 +56,31 @@ num_samples, num_features =vec.shape
 target_q=[target_q] #임베딩하기위해 리스트 변환
 target_q_vec =vectorizer.transform(target_q)
 print("타겟 질문의 임베딩 결과: \n", target_q_vec)
+print(type(target_q_vec))
 print('\n\n\n\n---------------------------------------')
 
 
-####  단순 벡터 내적 거리계산 함수 정의
-def dist_raw(v1,v2):
+####  단순 벡터 내적 거리계산 함수 정의(유클리디언 거리)
+def dist_raw_eculidian(v1,v2):
     delta = v1 - v2
     return sp.linalg.norm(delta.toarray())
 
 
+#### 벡터들의 코사인 유사도로 score계산하는 함수 정의
+def normalize_vector(v):
+    norm = np.linalg.norm(v)
+    if norm == 0:
+        return v
+    return v / norm
+
+def dist_cosine_similarity(v1, v2):
+    # 벡터 크기 정규화
+    v1_normalized = normalize_vector(v1)
+    v2_normalized = normalize_vector(v2)
+
+    # 코사인 유사도 계산
+    cosine_sim = v1_normalized.dot(v2_normalized.T).toarray()[0, 0]
+    return cosine_sim
 
 
 
@@ -77,8 +93,9 @@ dis_list=[]
 for i in range(0,num_samples):
     if i != 8: #제거한 문장 제외
         post_vec=vec.getrow(i)
+        print(type(post_vec))
 
-        dis=dist_raw(post_vec, target_q_vec)
+        dis=dist_cosine_similarity(post_vec, target_q_vec)
         print("==Post %i with dist=%.3f : %s" % (i,dis,contents[i]))
 
         if dis < best_dist:
