@@ -1,4 +1,4 @@
-# NLP를 활용한 QA챗봇 연구 목
+# NLP를 활용한 QA챗봇 연구 목표
 ## - NLP 공부/embedding공부
 ## - 다양한 언어모델들의 임베딩/fine-tunning 과정공부
 ## - 학습된 DB를 참조하지 않고, 허구 세계에서의 지식을 가져오는 hallucination 을 최소화하는 연구
