@@ -52,7 +52,7 @@ from konlpy.tag import Okt
 # df_a=tokenize(df_a)
 # df_q=tokenize(df_q)
 # tokens=df_a+df_q  ##manual DB까지 포함시키면 오히려 단어 유사도를 잘 못 측정하는거 같아서, 질답 DB만 토크나이징 해서 학습시켰다. 
-model=word2vec.Word2Vec(tokens,min_count=1)
+#model=word2vec.Word2Vec(tokens,min_count=1)
 # model_name="reccmodel"
 # model.save(model_name)
 model=word2vec.Word2Vec.load("reccmodel2") 

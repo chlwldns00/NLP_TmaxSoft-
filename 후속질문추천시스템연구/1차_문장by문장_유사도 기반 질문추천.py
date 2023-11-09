@@ -67,23 +67,40 @@ def dist_raw_eculidian(v1,v2):
 
 
 #### 벡터들의 코사인 유사도로 score계산하는 함수 정의
-def normalize_vector(v):
-    norm = np.linalg.norm(v)
-    if norm == 0:
-        return v
-    return v / norm
+# def normalize_vector(v):
+#     norm = np.linalg.norm(v)
+#     if norm == 0:
+#         return v
+#     return v / norm
 
-def dist_cosine_similarity(v1, v2):
-    # 벡터 크기 정규화
-    v1_normalized = normalize_vector(v1)
-    v2_normalized = normalize_vector(v2)
+# def dist_cosine_similarity(v1, v2):
+#     # 벡터 크기 정규화
+#     v1_normalized = normalize_vector(v1)
+#     v2_normalized = normalize_vector(v2)
 
-    # 코사인 유사도 계산
-    cosine_sim = v1_normalized.dot(v2_normalized.T).toarray()[0, 0]
-    return cosine_sim
+#     # 코사인 유사도 계산
+#     cosine_sim = v1_normalized.dot(v2_normalized.T).toarray()[0, 0]
+#     return cosine_sim
 
 
+import numpy as np
+from scipy.sparse import csr_matrix
+from scipy.spatial.distance import cosine
 
+def dist_cosine_similarity(sparse_matrix1, sparse_matrix2):
+    # Ensure that both input matrices are in Compressed Sparse Row (CSR) format
+    if not isinstance(sparse_matrix1, csr_matrix) or not isinstance(sparse_matrix2, csr_matrix):
+        raise ValueError("Input matrices must be in CSR format")
+    
+
+    # Convert the sparse matrices to dense arrays
+    dense_matrix1 = dense_matrix1.toarray().ravel() if hasattr(dense_matrix1, 'toarray') else dense_matrix1
+    dense_matrix2 = dense_matrix2.toarray().ravel() if hasattr(dense_matrix2, 'toarray') else dense_matrix2
+
+    # Compute the cosine similarity between the dense arrays
+    similarity = 1 - cosine(dense_matrix1, dense_matrix2)
+
+    return similarity
 #### 최적의 유사도를 가진 질문을 찾아보자[일단 best score1개만] (한글형태소 기반 토크나이징, tf-idf 벡터화(임베딩), norm메소드를 이용한 벡터거리 계산 이용)
 best_q=None
 best_dist=65535
