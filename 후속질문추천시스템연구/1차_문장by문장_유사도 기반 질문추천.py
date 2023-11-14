@@ -55,6 +55,7 @@ num_samples, num_features =vec.shape
 
 target_q=[target_q] #임베딩하기위해 리스트 변환
 target_q_vec =vectorizer.transform(target_q)
+target_q_cosvec=vectorizer.transform(target_q).todense()
 print("타겟 질문의 임베딩 결과: \n", target_q_vec)
 print(type(target_q_vec))
 print('\n\n\n\n---------------------------------------')
