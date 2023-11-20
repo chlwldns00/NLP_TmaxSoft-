@@ -15,7 +15,7 @@ t=Okt()
 #### data slicing(한글질문 위주, 100개만 잘라서 테스트)
 df=pd.read_csv("후속질문추천시스템연구/JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 df=df[2]
-df=df[:100]  
+df=df[:680]  
 contents=df.values.tolist()
 #print(len(contents))
 #print(df.head(3))
