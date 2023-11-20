@@ -165,14 +165,17 @@ def define_recomm_keyword2(key_ans,key_qes,model):
 ### gpt api로 새롭게 생성한 질문이여도 낫뱃인듯
 
 
+
+### 만약 gpt api를 못쓴다는 가정했을때 (DB에 있는 질문가져옴)
 def generate_recommend(final_keyword_list):
     for i in range(len(final_keyword_list)):
         final_keyword_list[i]
 
-def create_question_usingGpt(final_keyword_list):
-    return
 
-##### 
+
+
+
+### best score ==> gpt api로 질문 뽑아내기(DB에 있는 질문아님)
 
 def final_recommend_byGPT(tokenizinedList,final_keyword_list):
     idx=0 #### gpt로 키워드 뽑는 부분(생성된 타겟 질문/답변에 접근할수있는 idx라고 일단가정)
@@ -217,10 +220,14 @@ df_q=tokenize(df_q)
 key_ans=list(keyword_extractor_Qanswer(df_a).items())
 key_qes=list(keyword_extractor_Qanswer(df_q).items())
 recomm_keyword_1=define_recomm_keyword1(key_ans,key_qes)
-tokens=df_a+df_q+recomm_keyword_1
-model=word2vec.Word2Vec(tokens,min_count=1)
+# tokens=df_a+df_q+recomm_keyword_1
+# model=word2vec.Word2Vec(tokens,min_count=1)
+model_name="reccmodel2"
+# model.save(model_name)
+model=word2vec.Word2Vec.load(model_name)
 recomm_keyword_2=define_recomm_keyword2(recomm_keyword_1,key_qes,model)
 print(recomm_keyword_2)
+## 이후 답변 나온것과 recomm_keyword_2를 final_recommend_byGPT 함수에 넣어서 최종 답변을 뽑아내면 된다.
 
 
 
