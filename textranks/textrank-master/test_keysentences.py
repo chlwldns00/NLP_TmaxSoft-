@@ -9,7 +9,7 @@ import pandas as pd
 
 
 ## answer 전처리 ##
-df=pd.read_csv("JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
+df=pd.read_csv("textranks/textrank-master/JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 df=df[3]
 df=df[:10]  
 df_list=df.values.tolist()
@@ -30,6 +30,8 @@ print(sent)
 print('\n------------------------------------------')
 #### 형태소 분석기 함수화 ####
 t=Okt()
+
+
 def okt_tokenizer(sents):
 
     #### 형태소 단위로 tokenize
@@ -48,6 +50,6 @@ summarizer = KeysentenceSummarizer(
     min_sim = 0.3,
     verbose = False
 )
-keysents = summarizer.summarize(sent, topk=3)
+keysents = summarizer.summarize(sent, topk=1)
 print(type(keysents))
 print(keysents)
