@@ -14,4 +14,4 @@
 ## 사용해본 pre-trained 모델
 1. [bert-base-uncased](https://huggingface.co/bert-base-uncased), kobert
 2. [vicuna](https://huggingface.co/lmsys/vicuna-13b-v1.5-16k), [Korani](https://huggingface.co/KRAFTON/KORani-v3-13B)
-3. Use(Universal Sentence Encoder)[https://huggingface.co/vprelovac/universal-sentence-encoder-4]
+3. Use(Universal Sentence Encoder)[https://huggingface.co/vprelovac/universal-sentence-encoder-4] 
