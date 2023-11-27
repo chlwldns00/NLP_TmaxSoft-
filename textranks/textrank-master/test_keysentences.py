@@ -52,4 +52,4 @@ summarizer = KeysentenceSummarizer(
 )
 keysents = summarizer.summarize(sent, topk=1)
 print(type(keysents))
-print(keysents)
+print(keysents[0][2])

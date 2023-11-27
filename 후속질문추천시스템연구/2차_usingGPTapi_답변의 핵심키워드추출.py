@@ -9,6 +9,7 @@ from gensim.models import word2vec
 import nltk
 import gensim
 import gensim.models as g
+from textrank import KeysentenceSummarizer
 
 
 
@@ -167,9 +168,36 @@ def define_recomm_keyword2(key_ans,key_qes,model):
 
 
 ### 만약 gpt api를 못쓴다는 가정했을때 (DB에 있는 질문가져옴)
-def generate_recommend(final_keyword_list):
-    for i in range(len(final_keyword_list)):
-        final_keyword_list[i]
+
+### tokenizer 사용자 정의 (okt 토크나이저)
+def okt_tokenizer(sents): #sents => str type
+
+    #### 형태소 단위로 tokenize
+    contents_tokens=t.morphs(sents)
+    return contents_tokens #->list
+
+
+
+
+# textrank사용해서 키워드 추출 ##
+
+
+
+
+# print(type(keysents))
+# print(keysents)
+
+def generate_recommend(final_keyword_list,df_a):
+    
+    summarizer = KeysentenceSummarizer (
+    tokenize = okt_tokenizer,
+    min_sim = 0.3,
+    verbose = False
+    )
+    
+    for i in range(len(df_a)):
+        for j in range(len(final_keyword_list)):
+            keysents = summarizer.summarize(df_a[i], topk=1)
 
 
 
