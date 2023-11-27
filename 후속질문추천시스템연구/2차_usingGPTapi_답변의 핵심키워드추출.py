@@ -175,13 +175,13 @@ def generate_recommend(final_keyword_list):
 
 
 
-### best score ==> gpt api로 질문 뽑아내기(DB에 있는 질문아님)
+### best score ==> gpt api로 질문 뽑아내기(DB에 있는 질문아님) [일단보류]
 
 def final_recommend_byGPT(tokenizinedList,final_keyword_list):
     idx=0 #### gpt로 키워드 뽑는 부분(생성된 타겟 질문/답변에 접근할수있는 idx라고 일단가정)
 
     answer=str(tokenizinedList[idx]) #토큰화된것중에 타겟질문에 대한 해답을 index로 반환해주는 idx
-    keyword=final_keyword_list[idx]
+    keyword=final_keyword_list #### ***여기서 리스트 형태로 프롬프트에 넣어줄지 아니면, 그냥 단어단위로 끊어서 넣어줄지 미정 
     context='' #gpt 시스템에서는 context가 존재하지않는거 같다. 혹은 context로 어떤것을 넣어줘야할지는 미정.
     prompt=context+answer+'다음 문단을 참조하여 '+keyword+' 와 관련된 추가질문을 리스트 형태로 뽑아줘'
     completion = openai.ChatCompletion.create(
@@ -202,6 +202,8 @@ def final_recommend_byGPT(tokenizinedList,final_keyword_list):
 
 #####  main  ###############
 
+
+### 전처리 과정 (이미 csv파일이 정해져있다면)
 df=pd.read_csv("후속질문추천시스템연구/JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 df_q=df[2]
 df_q=df_q[:680]
@@ -226,7 +228,8 @@ model_name="reccmodel2"
 # model.save(model_name)
 model=word2vec.Word2Vec.load(model_name)
 recomm_keyword_2=define_recomm_keyword2(recomm_keyword_1,key_qes,model)
-print(recomm_keyword_2)
+#print(recomm_keyword_2)
+final_recommend_byGPT(df_a,recomm_keyword_2)
 ## 이후 답변 나온것과 recomm_keyword_2를 final_recommend_byGPT 함수에 넣어서 최종 답변을 뽑아내면 된다.
 
 
