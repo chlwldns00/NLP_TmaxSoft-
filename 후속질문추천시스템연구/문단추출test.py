@@ -61,27 +61,16 @@ summarizer = KeysentenceSummarizer(
 )
 #print(sent)
 answerKeyword_list=[]
-## 반복문으로 전구간 순회 
 
-for i in range(0,678):
+sent=f[404]
+sent=sent.split('.')
+keysents = summarizer.summarize(sent, topk=3)   
+        # print(type(keysents))
+        # print(keysents)
 
-    sent=f[i]
-    sent=sent.split('.')
-    #print(sent)
-
-    keysents = summarizer.summarize(sent, topk=3) 
-    # print(type(keysents))
-    # print(keysents)
-    print(i)
-    for j in range(len(keysents)):
-        s=keysents[j][2]+'\n'
-
-    answerKeyword_list.append(s)
-    s=''
-
-print(answerKeyword_list[-1])
-
-
-# keysents = summarizer.summarize(sent, topk=1)
-# print(type(keysents))
-# print(keysents)
+for j in range(len(keysents)):
+    s=keysents[j][2]+'\n'
+    print(s)
+answerKeyword_list.append(s)
+s=''
+print(answerKeyword_list[0])
