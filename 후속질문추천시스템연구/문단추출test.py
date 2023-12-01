@@ -62,15 +62,24 @@ summarizer = KeysentenceSummarizer(
 #print(sent)
 answerKeyword_list=[]
 
-sent=f[404]
+sent=f[405]
 sent=sent.split('.')
-keysents = summarizer.summarize(sent, topk=3)   
-        # print(type(keysents))
-        # print(keysents)
-
-for j in range(len(keysents)):
-    s=keysents[j][2]+'\n'
-    print(s)
-answerKeyword_list.append(s)
-s=''
-print(answerKeyword_list[0])
+print(sent)
+print(len(sent))
+# if len(sent)<2:                   #405번째 column에서 에러 여기 부터 해결 11/29 => 에러내용확인
+#                                     #에러내용=>summarizer함수에서 리스트내 문장중 topk만큼의 핵심문장을 비교 / 선택 하는데 답변이 3문장이 안되는 답변리스트 요소가 exception코드에 걸린거같다.
+#         for k in range(len(sent)):
+#             s=sent[k]+'\n'
+#         print('*')
+#         answerKeyword_list.append(s)
+#         s=''
+# keysents = summarizer.summarize(sent, topk=3)   
+#         # print(type(keysents))
+#         # print(keysents)
+# s=''
+# for j in range(len(keysents)):
+#     s=s+keysents[j][2]+'\n'    #합쳐지지가 않음?
+#     print(s)
+# answerKeyword_list.append(s)
+# s=''
+# print(answerKeyword_list[0])

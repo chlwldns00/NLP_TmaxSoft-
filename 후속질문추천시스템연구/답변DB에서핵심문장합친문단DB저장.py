@@ -62,15 +62,15 @@ summarizer = KeysentenceSummarizer(
 #print(sent)
 answerKeyword_list=[]
 ## 반복문으로 전구간 순회 
-
-for i in range(0,404):
+s=''
+for i in range(0,678):
 
     sent=f[i]
     sent=sent.split('.')
     #print(sent)
-    if len(sent)<2:                   #405번째 column에서 에러 여기 부터 해결 11/29 => 에러내용확인
+    if len(sent)<=4:                   #405번째 column에서 에러 여기 부터 해결 11/29 => 에러내용확인
                                     #에러내용=>summarizer함수에서 리스트내 문장중 topk만큼의 핵심문장을 비교 / 선택 하는데 답변이 3문장이 안되는 답변리스트 요소가 exception코드에 걸린거같다.
-        for k in range(len(sent)):
+        for k in range(len(sent)): #답변이 너무짧아 핵심문장을 못뽑는경우는 그냥 전부를 문장단위로 자른뒤 토크나이징및 전처리만 함
             s=sent[k]+'\n'
         print(i,'*')
         answerKeyword_list.append(s)
@@ -82,7 +82,7 @@ for i in range(0,404):
         # print(keysents)
         print(i)
         for j in range(len(keysents)):
-            s=keysents[j][2]+'\n'
+            s=s+keysents[j][2]+'\n'
 
         answerKeyword_list.append(s)
         s=''
