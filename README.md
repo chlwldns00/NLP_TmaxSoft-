@@ -9,7 +9,7 @@
 ## - textRank 알고리즘 이용한 문서/문장에서 키워드 summarize  
 ## - word2vec모델을 학습시킨후 단어:단어 유사도 비교해서 핵심키워드 추출 
 ## - 질문이 잘못된 형식으로 input 되었을때, 질답DB에 있는 질문 형식의 새로운 질문 추천하는 알고리즘 추가 제작 
-## - [추가설명]https://github.com/chlwldns00/NLP/blob/main/%ED%9B%84%EC%86%8D%EC%A7%88%EB%AC%B8%EC%B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%97%B0%EA%B5%AC/%EC%B6%94%EC%B2%9C%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%20%EA%B0%9C%EB%B0%9CREADME.txt
+## - [추가설명]https://github.com/chlwldns00/NLP/blob/main/%ED%9B%84%EC%86%8D%EC%A7%88%EB%AC%B8%EC %B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%97%B0%EA%B5%AC/%EC%B6%94%EC%B2%9C%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%20%EA%B0%9C%EB%B0%9CREADME.txt
 -----------------
 ## 사용해본 pre-trained 모델
 1. [bert-base-uncased](https://huggingface.co/bert-base-uncased), kobert
