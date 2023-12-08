@@ -169,25 +169,9 @@ def define_recomm_keyword2(key_ans,key_qes,model):
 
 ### 만약 gpt api를 못쓴다는 가정했을때 (DB에 있는 질문가져옴)
 
-### tokenizer 사용자 정의 (okt 토크나이저)
-def okt_tokenizer(sents): #sents => str type
+### 1208~
 
-    #### 형태소 단위로 tokenize
-    contents_tokens=t.morphs(sents)
-    return contents_tokens #->list
-
-
-
-
-# textrank사용해서 키워드 추출 ##
-
-
-
-
-# print(type(keysents))
-# print(keysents)
-
-def generate_recommend(final_keyword_list,df_a):
+def final_generate_recommend(final_keyword_list,df_a_keywords):
     
     summarizer = KeysentenceSummarizer (
     tokenize = okt_tokenizer,
@@ -195,9 +179,9 @@ def generate_recommend(final_keyword_list,df_a):
     verbose = False
     )
     
-    for i in range(len(df_a)):
+    for i in range(len(df_a_keywords)):
         for j in range(len(final_keyword_list)):
-            keysents = summarizer.summarize(df_a[i], topk=1)
+            keysents = summarizer.summarize(df_a_keywords[i], topk=1)
 
 
 

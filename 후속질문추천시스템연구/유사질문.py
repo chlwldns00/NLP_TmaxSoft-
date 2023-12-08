@@ -13,9 +13,9 @@ from scipy.spatial.distance import cosine
 t=Okt()
 
 #### data slicing(한글질문 위주, 100개만 잘라서 테스트)
-df=pd.read_csv("후속질문추천시스템연구/JEUS_application-client_final_DB(문단)_0705_new_eng copy.csv",encoding='utf-8',header=None)
-df=df[2]
-df=df[:680]  
+df=pd.read_csv("후속질문추천시스템연구/qadata0.csv",encoding='cp949',header=None)
+df=df[0]
+df=df[:450]  
 contents=df.values.tolist()
 #print(len(contents))
 #print(df.head(3))
