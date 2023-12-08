@@ -30,6 +30,9 @@ def tokenize(df):
         sentences=sentences.replace('(','')
         sentences=sentences.replace(')','')
         sentences=sentences.replace('.','')
+        sentences=sentences.replace('<','')
+        sentences=sentences.replace(':','')
+        sentences=sentences.replace('>','')
         #print(sentences)
         contents_tokens=t.morphs(sentences)
         tokenized.append(contents_tokens)
@@ -53,6 +56,9 @@ def tokenize_to_fullsents(df):
         sentences=sentences.replace('{','')
         sentences=sentences.replace('}','')
         sentences=sentences.replace('`','')
+        sentences=sentences.replace('<','')
+        sentences=sentences.replace(':','')
+        sentences=sentences.replace('>','')
 
 
         #print(sentences)
