@@ -76,7 +76,7 @@ print(num_samples, num_features)
 #### 타겟질문 임베딩 ###
 target_q=[tok_sentence_forVectorize[-1]] #임베딩하기위해 리스트 변환(임의 DB에서 가져오는 코드)
 
-target_q_vec =vectorizer.transform(target_q)
+target_q_vec = vectorizer.transform(target_q)
 
 #테스트 케이스
 print("타겟 질문의 임베딩 결과: \n", target_q_vec)

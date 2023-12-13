@@ -175,7 +175,7 @@ def define_recomm_keyword2(key_ans,key_qes,model):
 
 ### 만약 gpt api를 못쓴다는 가정했을때 (DB에 있는 질문가져옴)
 
-### 1208~
+### 1211~
 
 def final_generate_recommend(final_keyword_list,df_a_keywords):
     

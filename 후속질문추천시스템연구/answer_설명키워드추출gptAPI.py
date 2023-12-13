@@ -109,17 +109,17 @@ df=df[:10] ## 예시코드에서는 10개만 (본코드시 삭제) <예시 코�
 df_list=df.values.tolist()
 tokenizedList=tokenize_to_fullsents(df_list)
 final=[]
-<<<<<<< HEAD
-for i in range(10): ## 여기서 10을 열갯수만큼 바꾸면됨 <예시 코드>
-=======
+
+
+
 for i in range(3): ## 여기서 10을 열갯수만큼 바꾸면됨 <예시 코드>
->>>>>>> 6890515476c9edd00a5608f0c45ed32be2e50f10
+
     a={}
     a=keyword_extractor_Qanswer_fullanswer(tokenizedList,i)
     #print(a)
     final.append(list(a.keys()))
 
-<<<<<<< HEAD
+
 # print(final[-1])
 
 
@@ -145,33 +145,33 @@ with open(csv_filename, mode="w", newline="", encoding="utf-8") as file:
     writer.writerows(existing_data)
 
 print(f"{csv_filename} 파일에 새로운 행이 추가되었습니다.")
-=======
+
 print(final[-1])
 
 
-# csv_filename = "후속질문추천시스템연구/JEUS_application-client_final_DB(문단)_0705_new_eng copy.csv"
+csv_filename = "후속질문추천시스템연구/JEUS_application-client_final_DB(문단)_0705_new_eng copy.csv"
 
-# # CSV 파일 열기 (기존 데이터를 읽어오기 위해)
-# with open(csv_filename, mode="r", newline="", encoding="utf-8") as file:
-#     reader = csv.reader(file)
+# CSV 파일 열기 (기존 데이터를 읽어오기 위해)
+with open(csv_filename, mode="r", newline="", encoding="utf-8") as file:
+    reader = csv.reader(file)
     
-#     # 기존 데이터 읽어오기
-#     existing_data = list(reader)
+    # 기존 데이터 읽어오기
+    existing_data = list(reader)
 
-# # 새로운 데이터를 열로 추가
-# for i, item in enumerate(final):
-#     # 각 행에 해당 열의 데이터 추가
-#     existing_data[i].append(item)
+# 새로운 데이터를 열로 추가
+for i, item in enumerate(final):
+    # 각 행에 해당 열의 데이터 추가
+    existing_data[i].append(item)
 
-# # CSV 파일 열기 (추가된 데이터를 쓰기 위해)
-# with open(csv_filename, mode="w", newline="", encoding="utf-8") as file:
-#     writer = csv.writer(file)
+# CSV 파일 열기 (추가된 데이터를 쓰기 위해)
+with open(csv_filename, mode="w", newline="", encoding="utf-8") as file:
+    writer = csv.writer(file)
     
-#     # 추가된 데이터를 CSV 파일에 쓰기
-#     writer.writerows(existing_data)
+    # 추가된 데이터를 CSV 파일에 쓰기
+    writer.writerows(existing_data)
 
-# print(f"{csv_filename} 파일에 새로운 행이 추가되었습니다.")
->>>>>>> 6890515476c9edd00a5608f0c45ed32be2e50f10
+print(f"{csv_filename} 파일에 새로운 행이 추가되었습니다.")
+
 
 
 
