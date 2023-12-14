@@ -177,17 +177,11 @@ def define_recomm_keyword2(key_ans,key_qes,model):
 
 ### 1211~
 
-def final_generate_recommend(final_keyword_list,df_a_keywords):
+def final_generate_recommend(final_keyword_list,df_a_keywords): #df_a_keywords는 DB에 답변키워드가 저장되어있다는 전제하에 그 df 컬럼을 의미한다.
     
-    summarizer = KeysentenceSummarizer (
-    tokenize = okt_tokenizer,
-    min_sim = 0.3,
-    verbose = False
-    )
-    
-    for i in range(len(df_a_keywords)):
-        for j in range(len(final_keyword_list)):
-            keysents = summarizer.summarize(df_a_keywords[i], topk=1)
+    finalScore=[]
+    df_a_keyword_list=df_a_keywords.values().tolist()
+    for i in range()
 
 
 
