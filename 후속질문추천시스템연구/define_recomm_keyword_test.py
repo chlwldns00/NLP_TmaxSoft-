@@ -84,7 +84,7 @@ def tokenize(df):
 #model=word2vec.Word2Vec.load("reccmodel")
 # vocab = model.wv.vocab
 # sorted(vocab, key=vocab.get, reverse=True)[:30]
-dict1={
+answer_keyword_dict1={
    "애플리케이션 클라이언트": "JEUS 서버와 별도의 JVM에서 수행되는 standalone 클라이언트",
    "JEUS": "클라이언트 컨테이너를 사용하여 Jakarta EE 환경에서 애플리케이션 호출 및 서비스 제공",
    "클라이언트 컨테이너": "Naming Service, Scheduler, Security 등의 JEUS 서비스 사용",
@@ -92,14 +92,14 @@ dict1={
    "Jakarta EE 스펙": "더 자세한 내용 확인 가능",
    "JEUS XML 스키마": "jeusclientdd.xml로 참고 가능"
 }
-dict2={ 
+question_keyword_dict2={ 
     "JEUS": None,
     "클라이언트 라이브러리": None,
     "서비스": None,
     "이용": None
 }
-dict1=list(dict1.items())
-dict2=list(dict2.items())
+answer_keyword_dict1=list(answer_keyword_dict1.items())
+question_keyword_dict2=list(question_keyword_dict2.items())
 # a=len(dict1)
 # for i in range(len(dict2)):
 #     for j in range(len(dict1)-1,-1,-1):
@@ -122,20 +122,20 @@ dict2=list(dict2.items())
 
 # df_a=tokenize(df_a)
 # df_q=tokenize(df_q)
-lis=define_recomm_keyword1(dict1,dict2)
-# print(lis)
+lis=define_recomm_keyword1(answer_keyword_dict1,question_keyword_dict2)
+print(lis)
 # tokens=[]
 # tokens=df_a+df_q+lis
 # print(tokens[-3:])
 # # print(tokens) ##manual DB까지 포함시키면 오히려 단어 유사도를 잘 못 측정하는거 같아서, 질답 DB만 토크나이징 해서 학습시켰다. 
 # model=word2vec.Word2Vec(tokens,min_count=1)
-model_name="reccmodel2"
+model_name="후속질문추천시스템연구/reccmodel2"
 # model.save(model_name)
 model=word2vec.Word2Vec.load(model_name)
-final=define_recomm_keyword2(lis,dict2,model)
+final=define_recomm_keyword2(lis,question_keyword_dict2,model)
 
 
-print(final)
+#print(final)
 print(lis[i] for i in final)
 #rint(lis[2],lis[1],lis[0])
 

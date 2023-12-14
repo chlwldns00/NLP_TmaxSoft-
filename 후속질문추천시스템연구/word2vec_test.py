@@ -56,7 +56,8 @@ from konlpy.tag import Okt
 # model_name="reccmodel"
 # model.save(model_name)
 model=word2vec.Word2Vec.load("후속질문추천시스템연구/reccmodel2") 
-print(model.wv.similarity('애플리케이션','애플리케이션')) #manual DB 포함 0.09876247 미포함 0.16866803
+print('애플리케이션 : 클라이언트 상관점수')
+print(model.wv.similarity('애플리케이션','클라이언트')) #manual DB 포함 0.09876247 미포함 0.16866803
 #list=model.wv.most_similar('애플리케이션') #most similar 보다 내가 직접 비교하는게 성능이 더 좋을것같다
 #print(type(model.wv.most_similar('애플리케이션'
 #print(list)

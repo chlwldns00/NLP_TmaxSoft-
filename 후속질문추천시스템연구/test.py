@@ -20,12 +20,14 @@ contents=df.values.tolist()
 #print(len(contents))
 #print(df.head(3))
 target_q_input=input("타겟질문입력: ")  #테스트를 위한 입력부분(user query)
-contents.append(target_q_input)
+contents1=[]
+contents1.append(target_q_input)
 
 
 #### 형태소 단위로 tokenize
 contents_tokens=[t.morphs(row) for row in contents]
-print('토큰나이징\n', contents_tokens[-1])
+contents_tokens1=[t.morphs(row) for row in contents1]
+print('토큰나이징\n', contents_tokens1[0])
 
 
 
@@ -44,7 +46,8 @@ def token_to_fullsent(contents_tokens):
 
 
 tok_sentence_forVectorize=token_to_fullsent(contents_tokens)
-print(tok_sentence_forVectorize[-1])
+tok_sentence_forVectorize1=token_to_fullsent(contents_tokens1)
+print(tok_sentence_forVectorize1[0])
 #### 타겟 문장 설정하고, 현재 질문 DB에 동일한 질문이 있을시 질문DB에서 해당 질문을 삭제한다.
 #target_q=tok_sentence_forVectorize[8]
 
@@ -74,7 +77,7 @@ print(num_samples, num_features)
 
 
 #### 타겟질문 임베딩 ###
-target_q=[tok_sentence_forVectorize[-1]] #임베딩하기위해 리스트 변환(임의 DB에서 가져오는 코드)
+target_q=[tok_sentence_forVectorize1[0]] #임베딩하기위해 리스트 변환(임의 DB에서 가져오는 코드)
 
 target_q_vec =vectorizer.transform(target_q)
 
@@ -120,7 +123,7 @@ best_i=[]
 dis_list=[]
 
 for i in range(0,num_samples):
-    if i != num_samples-1: #제거한 문장 제외
+    if i != num_samples-1: #타겟한 문장 제외
         post_vec=vec.getrow(i)
         #print(type(post_vec))
 
@@ -133,7 +136,7 @@ for i in range(0,num_samples):
 
 
 print('\n\n\n\n----------------------------------------------------------')
-print('타겟질문:',tok_sentence_forVectorize[-1])
+print('타겟질문:',tok_sentence_forVectorize1[0])
 print("Best recommendation question is %i -> %s, score = %.3f" % (best_i[-1],contents[best_i[-1]],best_dist))
 print("Best recommendation question is %i -> %s, score = %.3f" % (best_i[-2],contents[best_i[-2]],best_dist))
 print("Best recommendation question is %i -> %s, score = %.3f" % (best_i[-3],contents[best_i[-3]],best_dist))

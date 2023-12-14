@@ -9,7 +9,7 @@ import pandas as pd
 
 
 ## answer 전처리 ##
-df=pd.read_csv("JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
+df=pd.read_csv("textranks/textrank-master/JEUS_application-client_final_DB(문단)_0705_new_eng.csv",encoding='utf-8',header=None)
 df=df[3]
 df=df[:10]  
 df=df.values.tolist()
