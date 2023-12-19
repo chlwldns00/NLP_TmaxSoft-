@@ -17,4 +17,4 @@
 3. Use(Universal Sentence Encoder)[https://huggingface.co/vprelovac/universal-sentence-encoder-4]  
 -------------------
 # 학사논문 작성 
-## hallucination 방지 
+## 연구내용 1 - hallucination 방지 
